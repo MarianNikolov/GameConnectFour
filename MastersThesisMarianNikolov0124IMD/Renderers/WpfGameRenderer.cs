@@ -269,13 +269,21 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
         public void ShowEndGameScreen()
         {
-
             string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
             ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
             image.Source = new BitmapImage(new Uri(pathBackground));
             myBrush.ImageSource = image.Source;
 
+            var endGameWindow = new Window
+            {
+                WindowState = WindowState.Maximized,
+                WindowStyle = WindowStyle.None,
+                ResizeMode = ResizeMode.NoResize,
+                Background = myBrush
+            };
+
+          
             // prosto taka raboti WPF
             var parent = this.canvas.Parent;
             while (!(parent is Window))
@@ -287,7 +295,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             {
             };
 
-            var button = new Button
+            var buttonNewGame = new Button
             {
                 FontSize = 20,
                 Content = "PLAY AGAIN",
@@ -296,7 +304,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Background = Brushes.Transparent,
                 Foreground = Brushes.LightSkyBlue,
             };
-            panel.Children.Add(button);
+
             var buttonEnd = new Button
             {
                 FontSize = 20,
@@ -307,21 +315,11 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Foreground = Brushes.LightSkyBlue,
 
             };
-            panel.Children.Add(buttonEnd);
 
-            var window = new Window
-            {
-                Content = panel,
-                WindowState = WindowState.Maximized,
-                WindowStyle = WindowStyle.None,
-                ResizeMode = ResizeMode.NoResize,
-                Background = myBrush
-            };
-
-            button.Click += (snd, ev) =>
+            buttonNewGame.Click += (snd, ev) =>
             {
                 new MainWindow().Show();
-                window.Close();
+                endGameWindow.Close();
             };
 
             buttonEnd.Click += (snd, ev) =>
@@ -329,12 +327,14 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Environment.Exit(0);
             };
 
-            //window.Show();
-            //(parent as Window).Close();
+            panel.Children.Add(buttonNewGame);
+            panel.Children.Add(buttonEnd);
 
-            //System.Threading.Thread.Sleep(3000);
-            //window.Close();
+            endGameWindow.Content = panel;
+            endGameWindow.Show();
+            (parent as Window).Close();
         }
+
         public void StopEventHandler()
         {
             (this.canvas.Parent as MainWindow).KeyDown -= WpfGameRenderer_KeyDown;
