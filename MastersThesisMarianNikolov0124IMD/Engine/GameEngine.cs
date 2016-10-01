@@ -199,28 +199,31 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
 
         private void HandleKeyPressed(object sender, KeyDownEventArgs key)
         {
-            var isLeft = key.Command == GameCommandType.MoveLeft;
-            var isRight = key.Command == GameCommandType.MoveRight;
-            var isFalling = key.Command == GameCommandType.Falling;
+            bool isLeft = key.Command == GameCommandType.MoveLeft;
+            bool isRight = key.Command == GameCommandType.MoveRight;
+            bool isFalling = key.Command == GameCommandType.Falling;
             
             try
             {
                 int change = isLeft ? -1 : 1;
-                var currentIndex = FindCurrentIndexInUpGameField();
+                int currentColumnIndex = FindCurrentIndexInUpGameField();
 
                 if (isLeft || isRight)
                 {
-                    if (IsInRangeUpGameFiled(this.UpGameField, currentIndex))
+                    if (IsInRangeUpGameFiled(currentColumnIndex, change))
                     {
-                        MoveUpCheckers(currentIndex, change);
+                        MoveUpCheckers(currentColumnIndex, change);
                     }
                 }
                 else if (isFalling)
                 {
-                    DropChecker(currentIndex);
-                    RemoveReminderChecker();
+                    DropChecker(currentColumnIndex);
+                    bool isFreeCellsInColumn = IsFreeCellsInColumn(currentColumnIndex);
+                    if (isFreeCellsInColumn)
+                    {
+                        RemoveReminderChecker();
+                    }
 
-                    this.renderer.Clear();
                 }
                 else
                 {
@@ -242,6 +245,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 if (isFalling)
                 {
                     this.renderer.Clear();
+
                     this.Renderer.Draw(this.upGameField);
                     this.Renderer.DrawPleyField(this.GameField);
                     this.Renderer.Draw(this.Board);
@@ -269,6 +273,18 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 this.Renderer.Draw(this.RemainingBlueCheckers);
                 this.Renderer.Draw();
                 this.Renderer.RefreshGame();
+            }
+        }
+
+        private bool IsFreeCellsInColumn(int currentColumnIndex)
+        {
+            if (this.GameField[0, currentColumnIndex] == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -359,7 +375,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             //var isNextFieldIsОccupied = this.GameField[row + 1, col] != null;
             if (row == this.GameField.GetLength(0) - 1 || this.GameField[row + 1, col] != null)
             {
-                var isThereAreFreeCell = this.GameField[0, col] == null;
+                var isThereAreFreeCell = IsFreeCellsInColumn(col);
                 if (isThereAreFreeCell)
                 {
                     return true;
@@ -383,11 +399,22 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             return number;
         }
 
-        private bool IsInRangeUpGameFiled(IGameObject[] positions, int currentIndex)
+        private bool IsInRangeUpGameFiled(int currentIndex, int change)
         {
-            var isCorrectlyLeftPosition = currentIndex >= 0;
-            var isCorrectlyRightPosition = currentIndex <= positions.Length - 1;
+            bool isCorrectlyLeftPosition;
+            bool isCorrectlyRightPosition;
 
+            if (change == 1)
+            {
+                isCorrectlyLeftPosition = currentIndex >= 0;
+                isCorrectlyRightPosition = currentIndex < this.PositionsForDropCheckers.Length - 1;
+            }
+            else
+            {
+                isCorrectlyLeftPosition = currentIndex > 0;
+                isCorrectlyRightPosition = currentIndex <= this.PositionsForDropCheckers.Length - 1;
+            }
+            
             if (isCorrectlyLeftPosition && isCorrectlyRightPosition)
             {
                 return true;
@@ -433,12 +460,11 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     this.Renderer.Draw(this.RemainingBlueCheckers);
                     this.Renderer.DrawWinLine(this.StartPositionForWinGame, this.EndPositionForWinGame);
                     this.Renderer.RefreshGame();
-                    System.Threading.Thread.Sleep(5000);
-
-
-                    //this.Renderer.ShowEndGameScreen();
-
+                    this.Renderer.StopEventHandler();
                     timer.Stop();
+
+                    //System.Threading.Thread.Sleep(5000);
+                    this.Renderer.ShowEndGameScreen();
 
                     // TODO massege for new game
 
@@ -446,7 +472,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     //this.Renderer.DrawPleyField(this.GameField);
 
                     //System.Threading.Thread.Sleep(3000);
-                    Environment.Exit(0);
+                    //Environment.Exit(0);
                 }
             };
             timer.Start();

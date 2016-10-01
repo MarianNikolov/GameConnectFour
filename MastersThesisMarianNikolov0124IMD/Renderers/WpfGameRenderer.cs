@@ -48,30 +48,32 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             myBrush.ImageSource = image.Source;
             this.canvas.Background = myBrush;
 
-            (this.canvas.Parent as MainWindow).KeyDown += (sender, args) =>
-            {
-                var key = args.Key;
-                var isLeft = key == Key.Left;
-                var isRihgt = key == Key.Right;
-                var isEnter = key == Key.Enter;
+            (this.canvas.Parent as MainWindow).KeyDown += WpfGameRenderer_KeyDown;
+        }
 
-                if (isLeft)
-                {
-                    this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveLeft));
-                }
-                else if (isRihgt)
-                {
-                    this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveRight));
-                }
-                else if (isEnter)
-                {
-                    this.presingKey(this, new KeyDownEventArgs(GameCommandType.Falling));
-                }
-                else
-                {
-                    this.presingKey(this, new KeyDownEventArgs(GameCommandType.WrongKey));
-                }
-            };
+        private void WpfGameRenderer_KeyDown(object sender, KeyEventArgs args)
+        {
+            var key = args.Key;
+            var isLeft = key == Key.Left;
+            var isRihgt = key == Key.Right;
+            var isEnter = key == Key.Enter;
+
+            if (isLeft)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveLeft));
+            }
+            else if (isRihgt)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveRight));
+            }
+            else if (isEnter)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.Falling));
+            }
+            else
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.WrongKey));
+            }
         }
 
         public void RefreshGame()
@@ -244,7 +246,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             //Canvas.SetRight(myLine, 222);
             this.canvas.Children.Add(myLine);
         }
-       
+
         public void ShowStartGameScreen()
         {
             string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
@@ -267,68 +269,76 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
         public void ShowEndGameScreen()
         {
+
             string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
             ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
             image.Source = new BitmapImage(new Uri(pathBackground));
             myBrush.ImageSource = image.Source;
 
+            // prosto taka raboti WPF
+            var parent = this.canvas.Parent;
+            while (!(parent is Window))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            StackPanel panel = new StackPanel
+            {
+            };
+
+            var button = new Button
+            {
+                FontSize = 20,
+                Content = "PLAY AGAIN",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+            };
+            panel.Children.Add(button);
+            var buttonEnd = new Button
+            {
+                FontSize = 20,
+                Content = "EXIT GAME",
+                Width = 250,
+                Height = 50,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.LightSkyBlue,
+
+            };
+            panel.Children.Add(buttonEnd);
+
             var window = new Window
             {
+                Content = panel,
                 WindowState = WindowState.Maximized,
                 WindowStyle = WindowStyle.None,
                 ResizeMode = ResizeMode.NoResize,
                 Background = myBrush
             };
 
-            window.Show();
-            System.Threading.Thread.Sleep(3000);
-            window.Close();
+            button.Click += (snd, ev) =>
+            {
+                new MainWindow().Show();
+                window.Close();
+            };
 
-            //// prosto taka raboti WPF
-            //var parent = this.canvas.Parent;
-            //while (!(parent is Window))
-            //{
-            //    parent = VisualTreeHelper.GetParent(parent);
-            //}
+            buttonEnd.Click += (snd, ev) =>
+            {
+                Environment.Exit(0);
+            };
 
-            //StackPanel panel = new StackPanel
-            //{
-            //};
-
-            //var button = new Button
-            //{
-            //    FontSize = 20,
-            //    Content = "PLAY AGAIN",
-            //    Width = 250,
-            //    Height = 50,
-            //    Background = Brushes.Transparent,
-            //    Foreground = Brushes.LightSkyBlue,
-            //};
-            //panel.Children.Add(button);
-            //var buttonEnd = new Button
-            //{
-            //    FontSize = 20,
-            //    Content = "EXIT GAME",
-            //    Width = 250,
-            //    Height = 50,
-            //    Background = Brushes.Transparent,
-            //    Foreground = Brushes.LightSkyBlue,
-
-            //};
-            //panel.Children.Add(buttonEnd);
-
-            //button.Click += (snd, ev) =>
-            //{
-            //    new MainWindow().Show();
-            //    window.Close();
-            //};
-            //buttonEnd.Click += (snd, ev) =>
-            //{
-            //    Environment.Exit(0);
-            //};
             //window.Show();
             //(parent as Window).Close();
+
+            //System.Threading.Thread.Sleep(3000);
+            //window.Close();
         }
+        public void StopEventHandler()
+        {
+            (this.canvas.Parent as MainWindow).KeyDown -= WpfGameRenderer_KeyDown;
+        }
+
     }
 }

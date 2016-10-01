@@ -26,6 +26,8 @@ namespace MastersThesisMarianNikolov0124IMD.Contracts
 
         event KeyDownEventHandler presingKey;
 
+        void StopEventHandler();
+
         void ShowStartGameScreen();
 
         void ShowEndGameScreen();
