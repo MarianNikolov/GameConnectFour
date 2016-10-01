@@ -45,6 +45,11 @@ namespace MastersThesisMarianNikolov0124IMD.Factories
         {
             return new WrongKeyMessage(position, size, text);
         }
+
+        public static ITextGameObject GenerateMessage(Position position, Size size, string text)
+        {
+            return new TextGameObject(position, size, text);
+        }
         //public static Position GenerateNewPosition(Position giveSeed, IGameObject current)
         //{
         //    var left = current.Position.Left + giveSeed.Left;

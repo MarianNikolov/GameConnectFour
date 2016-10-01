@@ -30,6 +30,6 @@ namespace MastersThesisMarianNikolov0124IMD.Contracts
 
         void ShowStartGameScreen();
 
-        void ShowEndGameScreen();
+        void ShowEndGameScreen(ITextGameObject winnerText);
     }
 }

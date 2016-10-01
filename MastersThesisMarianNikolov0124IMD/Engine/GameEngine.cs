@@ -26,7 +26,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
         private IGameObject[] remainingBlueCheckers;
         private Position startPositionForWinGame;
         private Position endPositionForWinGame;
-        
+
         bool isRedTurn = true;
 
         public GameEngine(IRenderer renderer)
@@ -202,7 +202,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             bool isLeft = key.Command == GameCommandType.MoveLeft;
             bool isRight = key.Command == GameCommandType.MoveRight;
             bool isFalling = key.Command == GameCommandType.Falling;
-            
+
             try
             {
                 int change = isLeft ? -1 : 1;
@@ -217,13 +217,32 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 }
                 else if (isFalling)
                 {
-                    DropChecker(currentColumnIndex);
                     bool isFreeCellsInColumn = IsFreeCellsInColumn(currentColumnIndex);
+
+                    DropChecker(currentColumnIndex);
+
                     if (isFreeCellsInColumn)
                     {
                         RemoveReminderChecker();
-                    }
 
+                        this.renderer.Clear();
+
+                        this.Renderer.DrawPleyField(this.GameField);
+                        this.Renderer.Draw(this.Board);
+                        this.Renderer.Draw(this.RemainingRedCheckers);
+                        this.Renderer.Draw(this.RemainingBlueCheckers);
+                        this.Renderer.Draw();
+
+                        // generate current turn message
+                        Position turnMessagePosition = GameObjectFactory.GeneratePosition(420, 60);
+                        Size turnMessageSize = GameObjectFactory.GenerateSize(230, 45);
+                        string turnMessageText = isRedTurn ? GlobalConstants.redTurnMsg : GlobalConstants.blueTurnMsg;
+                        ITextGameObject turnMessage = GameObjectFactory.GenerateNextTurnMessage(turnMessagePosition, turnMessageSize, turnMessageText);
+                        this.Renderer.Draw(turnMessage);
+                        this.Renderer.RefreshGame();
+
+                        System.Threading.Thread.Sleep(500);
+                    }
                 }
                 else
                 {
@@ -238,32 +257,10 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 this.Renderer.Draw(wrongKeyMsg);
                 this.Renderer.RefreshGame();
 
-                //System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(500);
             }
             finally
             {
-                if (isFalling)
-                {
-                    this.renderer.Clear();
-
-                    this.Renderer.Draw(this.upGameField);
-                    this.Renderer.DrawPleyField(this.GameField);
-                    this.Renderer.Draw(this.Board);
-                    this.Renderer.Draw(this.RemainingRedCheckers);
-                    this.Renderer.Draw(this.RemainingBlueCheckers);
-                    this.Renderer.Draw();
-
-                    // generate current turn message
-                    Position turnMessagePosition = GameObjectFactory.GeneratePosition(555, 50);
-                    Size turnMessageSize = GameObjectFactory.GenerateSize(222, 222);
-                    string turnMessageText = isRedTurn ? GlobalConstants.redTurnMsg : GlobalConstants.blueTurnMsg;
-                    ITextGameObject turnMessage = GameObjectFactory.GenerateNextTurnMessage(turnMessagePosition, turnMessageSize, turnMessageText);
-                    this.Renderer.Draw(turnMessage);
-                    this.Renderer.RefreshGame();
-
-                    //System.Threading.Thread.Sleep(500);
-                }
-
                 this.renderer.Clear();
 
                 this.Renderer.Draw(this.upGameField);
@@ -414,7 +411,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 isCorrectlyLeftPosition = currentIndex > 0;
                 isCorrectlyRightPosition = currentIndex <= this.PositionsForDropCheckers.Length - 1;
             }
-            
+
             if (isCorrectlyLeftPosition && isCorrectlyRightPosition)
             {
                 return true;
@@ -460,18 +457,19 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     this.Renderer.Draw(this.RemainingBlueCheckers);
                     this.Renderer.DrawWinLine(this.StartPositionForWinGame, this.EndPositionForWinGame);
                     this.Renderer.RefreshGame();
+
+                    System.Threading.Thread.Sleep(4000);
                     this.Renderer.StopEventHandler();
                     timer.Stop();
 
-                    this.Renderer.ShowEndGameScreen();
+                    Position winnerTextPoition = GameObjectFactory.GeneratePosition(500, 500);
+                    Size winnerTextSize = GameObjectFactory.GenerateSize(350, 200);
+                    string winner = isRedTurn ? GlobalConstants.PlayerBlue : GlobalConstants.PlayerRed;
+                    string winnerMessege = string.Format(GlobalConstants.WinnerMessage, winner);
+                    ITextGameObject winnerText = GameObjectFactory.GenerateMessage(winnerTextPoition, winnerTextSize, winnerMessege);
 
-                    // TODO massege for new game
-                    //System.Threading.Thread.Sleep(5000);
+                    this.Renderer.ShowEndGameScreen(winnerText);
 
-                    //this.Renderer.Draw(this.UpGameField);
-                    //this.Renderer.DrawPleyField(this.GameField);
-
-                    //System.Threading.Thread.Sleep(3000);
                     //Environment.Exit(0);
                 }
             };

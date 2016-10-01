@@ -38,9 +38,12 @@ namespace MastersThesisMarianNikolov0124IMD.Global
         public const int spacingBetweenCells = 110;
 
         // turn message 
-        public const string redTurnMsg = "Red turn";
-        public const string blueTurnMsg = "Blue turn";
+        public const string redTurnMsg = "Red player turn";
+        public const string blueTurnMsg = "Blue player turn";
 
-
+        // win message
+        public const string WinnerMessage = "{0} player win!";
+        public const string PlayerRed = "Red";
+        public const string PlayerBlue = "Blue";
     }
 }

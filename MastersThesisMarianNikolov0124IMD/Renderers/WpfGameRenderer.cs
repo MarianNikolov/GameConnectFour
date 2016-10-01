@@ -18,6 +18,8 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
     public class WpfGameRenderer : IRenderer
     {
+        private bool isRedMessege;
+
         private Canvas canvas;
 
         public int ScreenHeigth
@@ -36,10 +38,24 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             }
         }
 
+        public bool IsRedMessege
+        {
+            get
+            {
+                return this.isRedMessege;
+            }
+
+            set
+            {
+                this.isRedMessege = value;
+            }
+        }
+
         public event KeyDownEventHandler presingKey;
 
         public WpfGameRenderer(Canvas gameCanvas)
         {
+            this.IsRedMessege = false;
             string pathToBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
             this.canvas = gameCanvas;
             ImageBrush myBrush = new ImageBrush();
@@ -206,14 +222,36 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             {
                 Width = drawing.Bounds.Width,
                 Height = drawing.Bounds.Height,
-                Foreground = Brushes.White,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
                 Text = drawing.Text,
                 FontSize = 33,
             };
 
+            if (drawing is NextTurnMessage)
+            {
+                if (IsRedMessege)
+                {
+                    text.Foreground = Brushes.White;
+                    text.Background = Brushes.Red;
+                    this.IsRedMessege = !this.IsRedMessege;
+                }
+                else
+                {
+                    text.Foreground = Brushes.White;
+                    text.Background = Brushes.Blue;
+                    this.IsRedMessege = !this.IsRedMessege;
+                }
+            }
+
             if (drawing is WrongKeyMessage)
             {
-                text.Foreground = Brushes.Silver;
+                text.Width = 470;
+                text.Height = 80;
+                text.Foreground = Brushes.Black;
+                text.Background = Brushes.White;
+                text.HorizontalAlignment = HorizontalAlignment.Center;
+                text.VerticalAlignment = VerticalAlignment.Center;
                 text.FontSize = 55;
             }
 
@@ -267,7 +305,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             window.Close();
         }
 
-        public void ShowEndGameScreen()
+        public void ShowEndGameScreen(ITextGameObject winnerText)
         {
             string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
             ImageBrush myBrush = new ImageBrush();
@@ -283,8 +321,6 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Background = myBrush
             };
 
-          
-            // prosto taka raboti WPF
             var parent = this.canvas.Parent;
             while (!(parent is Window))
             {
@@ -297,23 +333,27 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
             var buttonNewGame = new Button
             {
-                FontSize = 20,
+                FontSize = 44,
                 Content = "PLAY AGAIN",
-                Width = 250,
-                Height = 50,
+                Width = 400,
+                Height = 100,
                 Background = Brushes.Transparent,
                 Foreground = Brushes.LightSkyBlue,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderThickness = new Thickness(5),
             };
 
             var buttonEnd = new Button
             {
-                FontSize = 20,
+                FontSize = 40,
                 Content = "EXIT GAME",
-                Width = 250,
-                Height = 50,
+                Width = 400,
+                Height = 100,
                 Background = Brushes.Transparent,
                 Foreground = Brushes.LightSkyBlue,
-
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 33, 0, 0),
+                BorderThickness = new Thickness(5),
             };
 
             buttonNewGame.Click += (snd, ev) =>
@@ -327,6 +367,28 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Environment.Exit(0);
             };
 
+            var textForPushDownMessageAndButtons = new TextBlock()
+            {
+                Width = panel.Width,
+                Height = 150,
+            };
+
+            var text = new TextBlock()
+            {
+                Width = 700,
+                Height = 300,
+                Foreground = Brushes.White,
+                Text = winnerText.Text,
+                FontSize = 80,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(100, 0, 0, 0),
+                FontWeight = FontWeights.ExtraBold,
+                FontStyle = FontStyles.Oblique
+            };
+
+            panel.Children.Add(textForPushDownMessageAndButtons);
+            panel.Children.Add(text);
+
             panel.Children.Add(buttonNewGame);
             panel.Children.Add(buttonEnd);
 
@@ -339,6 +401,5 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
         {
             (this.canvas.Parent as MainWindow).KeyDown -= WpfGameRenderer_KeyDown;
         }
-
     }
 }
