@@ -463,10 +463,10 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     this.Renderer.StopEventHandler();
                     timer.Stop();
 
-                    //System.Threading.Thread.Sleep(5000);
                     this.Renderer.ShowEndGameScreen();
 
                     // TODO massege for new game
+                    //System.Threading.Thread.Sleep(5000);
 
                     //this.Renderer.Draw(this.UpGameField);
                     //this.Renderer.DrawPleyField(this.GameField);
