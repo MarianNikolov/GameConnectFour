@@ -27,7 +27,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
         private Position startPositionForWinGame;
         private Position endPositionForWinGame;
 
-        bool isRedTurn = true;
+        private bool isRedTurn = true;
 
         public GameEngine(IRenderer renderer)
         {
@@ -458,7 +458,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     this.Renderer.DrawWinLine(this.StartPositionForWinGame, this.EndPositionForWinGame);
                     this.Renderer.RefreshGame();
 
-                    System.Threading.Thread.Sleep(4000);
+                    System.Threading.Thread.Sleep(5000);
                     this.Renderer.StopEventHandler();
                     timer.Stop();
 

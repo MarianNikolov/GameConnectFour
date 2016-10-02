@@ -7,18 +7,11 @@ using System.Threading.Tasks;
 
 namespace MastersThesisMarianNikolov0124IMD.GameObjects
 {
-    public class Checker : GameObject, IGameObject, IMovable
+    public class Checker : GameObject, IGameObject
     {
-        public Position Speed { get; set; }
-
         public Checker(Position givePosition, Size giveSize) 
             : base(givePosition, giveSize)
         {
-        }
-
-        public void Move(int width, int height)
-        {
-            this.Position = new Position(width, height);
         }
     }
 }

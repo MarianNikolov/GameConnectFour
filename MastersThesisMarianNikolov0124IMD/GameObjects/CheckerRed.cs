@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MastersThesisMarianNikolov0124IMD.GameObjects
 {
-    public class CheckerRed : Checker, IGameObject, IMovable
+    public class CheckerRed : Checker, IGameObject
     {
         public CheckerRed(Position givePosition, Size giveSize) 
             : base(givePosition, giveSize)

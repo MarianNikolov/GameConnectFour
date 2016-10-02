@@ -145,15 +145,14 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 {
                     if (drawObjects[row, col] != null)
                     {
-                        //IMovable drawingIMovable = drawObjects[row, col] as IMovable;
                         if (drawObjects[row, col] is CheckerRed)
                         {
-                            IMovable drawingIMovable = drawObjects[row, col] as IMovable;
+                            IGameObject drawingIMovable = drawObjects[row, col] as IGameObject;
                             DrawRedCheckers(drawObjects[row, col]);
                         }
                         if (drawObjects[row, col] is CheckerBlue)
                         {
-                            IMovable drawingIMovable = drawObjects[row, col] as IMovable;
+                            IGameObject drawingIMovable = drawObjects[row, col] as IGameObject;
                             DrawBlueCheckers(drawObjects[row, col]);
                         }
                     }

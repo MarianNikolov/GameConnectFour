@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MastersThesisMarianNikolov0124IMD.Factories
 {
-    public class GameObjectFactory
+    public static class GameObjectFactory
     {
         public static Size GenerateSize(int width, int height)
         {
