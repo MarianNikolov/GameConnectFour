@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="MastersThesisMarianNikolov0124IMD.Engine.GameEngine" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="12.25" Y="0.5" Width="1.5" />
+    <Position X="5.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABQYBDIQgAAUACCQsEBoUBEhIVEQBGAJsAKAADEAgBA=</HashCode>
+      <HashCode>ABQYBDIQgAAUACCQsGBoUBEhIVEQBGAJsAKAACEAiBA=</HashCode>
       <FileName>Engine\GameEngine.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.Factories.GameObjectFactory" Collapsed="true">
-    <Position X="14" Y="0.5" Width="1.5" />
+    <Position X="7" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAgAAAAAIAAAAAAQBAAAAAAAAAAAgAAAAEAAAAg=</HashCode>
       <FileName>Factories\GameObjectFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.Checker" Collapsed="true">
-    <Position X="2" Y="1.75" Width="1.5" />
+    <Position X="3.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Checker.cs</FileName>
@@ -24,7 +24,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.CheckerBlue" Collapsed="true">
-    <Position X="0.75" Y="3.25" Width="1.5" />
+    <Position X="2" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\CheckerBlue.cs</FileName>
@@ -32,7 +32,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.CheckerRed" Collapsed="true">
-    <Position X="3" Y="3.25" Width="1.5" />
+    <Position X="4.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\CheckerRed.cs</FileName>
@@ -55,7 +55,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.NextTurnMessage" Collapsed="true">
-    <Position X="9.75" Y="3.25" Width="1.5" />
+    <Position X="8.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\NextTurnMessage.cs</FileName>
@@ -63,21 +63,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.Position">
-    <Position X="14" Y="1.5" Width="1.5" />
+    <Position X="7" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Position.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.Size">
-    <Position X="15.75" Y="1.5" Width="1.5" />
+    <Position X="8.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\Size.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.TextGameObject" Collapsed="true">
-    <Position X="8.75" Y="1.75" Width="1.5" />
+    <Position X="7.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAA=</HashCode>
       <FileName>GameObjects\TextGameObject.cs</FileName>
@@ -85,7 +85,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.GameObjects.WrongKeyMessage" Collapsed="true">
-    <Position X="7.5" Y="3.25" Width="1.5" />
+    <Position X="6.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameObjects\WrongKeyMessage.cs</FileName>
@@ -93,64 +93,64 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.Global.GlobalConstants" Collapsed="true">
-    <Position X="15.75" Y="0.5" Width="1.5" />
+    <Position X="8.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAEAAgAAACQAACBhAQCAABAAACAACAAIASCAAEQg=</HashCode>
       <FileName>Global\GlobalConstants.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.Renderers.WpfGameRenderer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="12.25" Y="2.5" Width="1.5" />
+    <Position X="5.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAlAAAAAAABACAABgAAEACgAACgBAAKI=</HashCode>
+      <HashCode>AAAAAAAAAAAgAlAAAAIAABACAABgAAEACgAgCABAAKI=</HashCode>
       <FileName>Renderers\WpfGameRenderer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="MastersThesisMarianNikolov0124IMD.Common.KeyDownEventArgs" Collapsed="true">
-    <Position X="12.25" Y="1.5" Width="1.5" />
+    <Position X="5.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Common\KeyDownEventArgs.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="MastersThesisMarianNikolov0124IMD.Contracts.IGameEngine" Collapsed="true">
-    <Position X="12.25" Y="3.75" Width="1.5" />
+    <Position X="2" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Contracts\IGameEngine.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MastersThesisMarianNikolov0124IMD.Contracts.IGameObject" Collapsed="true">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+    <Position X="2" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Contracts\IGameObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MastersThesisMarianNikolov0124IMD.Contracts.IRenderer" Collapsed="true">
-    <Position X="14" Y="3.75" Width="1.5" />
+    <Position X="2" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAkAAAAAAABAAAABgAAEAAgAACABAACA=</HashCode>
       <FileName>Contracts\IRenderer.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="MastersThesisMarianNikolov0124IMD.Contracts.ITextGameObject" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
+    <Position X="2" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Contracts\ITextGameObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="MastersThesisMarianNikolov0124IMD.Common.GameCommandType" Collapsed="true">
-    <Position X="12.25" Y="4.75" Width="1.5" />
+    <Position X="5.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIQACAAAAAAAA=</HashCode>
       <FileName>Common\GameCommandType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Delegate Name="MastersThesisMarianNikolov0124IMD.Renderers.KeyDownEventHandler" Collapsed="true">
-    <Position X="12.25" Y="5.75" Width="1.5" />
+    <Position X="7" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAAAAAA=</HashCode>
       <FileName>Renderers\WpfGameRenderer.cs</FileName>

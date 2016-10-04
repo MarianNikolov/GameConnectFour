@@ -14,10 +14,9 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
     {
         private IRenderer renderer;
         private IGameObject checker;
-        private DispatcherTimer timer;
-        private Position[] positionsForDropCheckers;
-        private Position[,] positionsGameField;
+        private Position[] positionsUpGameField;
         private IGameObject[] upGameField;
+        private Position[,] positionsGameField;
         private IGameObject[,] gameField;
         private IGameObject board;
         private Position[] positionRemainingRedCheckers;
@@ -26,13 +25,14 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
         private IGameObject[] remainingBlueCheckers;
         private Position startPositionForWinGame;
         private Position endPositionForWinGame;
+        private DispatcherTimer timer;
 
         private bool isRedTurn = true;
 
         public GameEngine(IRenderer renderer)
         {
-            this.Renderer = renderer;
             this.timer = new DispatcherTimer();
+            this.Renderer = renderer;
             this.Renderer.presingKey += HandleKeyPressed;
         }
 
@@ -48,10 +48,16 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             }
         }
 
-        public Position[] PositionsForDropCheckers
+        public Position[] PositionsUpGameField
         {
-            get { return this.positionsForDropCheckers; }
-            set { this.positionsForDropCheckers = value; }
+            get
+            {
+                return this.positionsUpGameField;
+            }
+            set
+            {
+                this.positionsUpGameField = value;
+            }
         }
 
         public Position[,] PositionsGameField
@@ -64,7 +70,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 this.positionsGameField = value;
             }
-
         }
 
         public IGameObject[] UpGameField
@@ -73,7 +78,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.upGameField;
             }
-
             set
             {
                 this.upGameField = value;
@@ -86,7 +90,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.gameField;
             }
-
             set
             {
                 this.gameField = value;
@@ -99,7 +102,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.checker;
             }
-
             set
             {
                 this.checker = value;
@@ -112,7 +114,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.board;
             }
-
             set
             {
                 this.board = value;
@@ -125,7 +126,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.remainingRedCheckers;
             }
-
             set
             {
                 this.remainingRedCheckers = value;
@@ -138,7 +138,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.remainingBlueCheckers;
             }
-
             set
             {
                 this.remainingBlueCheckers = value;
@@ -151,7 +150,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.positionRemainingRedCheckers;
             }
-
             set
             {
                 this.positionRemainingRedCheckers = value;
@@ -164,7 +162,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.positionRemainingBlueCheckers;
             }
-
             set
             {
                 this.positionRemainingBlueCheckers = value;
@@ -177,7 +174,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.startPositionForWinGame;
             }
-
             set
             {
                 this.startPositionForWinGame = value;
@@ -190,7 +186,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 return this.endPositionForWinGame;
             }
-
             set
             {
                 this.endPositionForWinGame = value;
@@ -231,13 +226,15 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                         this.Renderer.Draw(this.Board);
                         this.Renderer.Draw(this.RemainingRedCheckers);
                         this.Renderer.Draw(this.RemainingBlueCheckers);
-                        this.Renderer.Draw();
 
                         // generate current turn message
                         Position turnMessagePosition = GameObjectFactory.GeneratePosition(420, 60);
                         Size turnMessageSize = GameObjectFactory.GenerateSize(230, 45);
                         string turnMessageText = isRedTurn ? GlobalConstants.redTurnMsg : GlobalConstants.blueTurnMsg;
-                        ITextGameObject turnMessage = GameObjectFactory.GenerateNextTurnMessage(turnMessagePosition, turnMessageSize, turnMessageText);
+                        ITextGameObject turnMessage = 
+                            GameObjectFactory.GenerateNextTurnMessage(
+                                turnMessagePosition, turnMessageSize, 
+                                turnMessageText);
                         this.Renderer.Draw(turnMessage);
                         this.Renderer.RefreshGame();
 
@@ -253,7 +250,12 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             {
                 Position wrongKeyMessagePosition = GameObjectFactory.GeneratePosition(333, 333);
                 Size wrongKeyMessageSize = GameObjectFactory.GenerateSize(666, 222);
-                ITextGameObject wrongKeyMsg = GameObjectFactory.GenerateWrongKeyMessage(wrongKeyMessagePosition, wrongKeyMessageSize, ex.Message);
+                ITextGameObject wrongKeyMsg = 
+                    GameObjectFactory.GenerateWrongKeyMessage(
+                        wrongKeyMessagePosition, 
+                        wrongKeyMessageSize, 
+                        ex.Message);
+
                 this.Renderer.Draw(wrongKeyMsg);
                 this.Renderer.RefreshGame();
 
@@ -315,16 +317,27 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
 
         private void MoveUpCheckers(int currentIndex, int change)
         {
-            Size checkerSizeForUpField = GameObjectFactory.GenerateSize(GlobalConstants.startCheckerWidth, GlobalConstants.startCheckerHeight);
+            Size checkerSizeForUpField =
+                GameObjectFactory.GenerateSize(
+                    GlobalConstants.startCheckerWidth,
+                    GlobalConstants.startCheckerHeight);
             if (isRedTurn)
             {
-                IGameObject checkerRedForUpFiled = GameObjectFactory.GenerateRedChecker(PositionsForDropCheckers[currentIndex + change], checkerSizeForUpField);
+                IGameObject checkerRedForUpFiled =
+                    GameObjectFactory.GenerateRedChecker(
+                        PositionsUpGameField[currentIndex + change],
+                        checkerSizeForUpField);
+
                 this.UpGameField[currentIndex] = null;
                 this.UpGameField[currentIndex + change] = checkerRedForUpFiled;
             }
             else
             {
-                IGameObject checkerBlueForUpFiled = GameObjectFactory.GenerateBlueChecker(PositionsForDropCheckers[currentIndex + change], checkerSizeForUpField);
+                IGameObject checkerBlueForUpFiled =
+                    GameObjectFactory.GenerateBlueChecker(
+                        PositionsUpGameField[currentIndex + change],
+                        checkerSizeForUpField);
+
                 this.UpGameField[currentIndex] = null;
                 this.UpGameField[currentIndex + change] = checkerBlueForUpFiled;
             }
@@ -340,21 +353,42 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     var isValidDropParameters = IsValidDropParameters(row, col);
                     if (isValidDropParameters)
                     {
-                        Size checkerSizeForField = GameObjectFactory.GenerateSize(GlobalConstants.checkerWidth, GlobalConstants.checkerHeight);
+                        Size checkerSizeForField =
+                            GameObjectFactory.GenerateSize(
+                                GlobalConstants.checkerWidth,
+                                GlobalConstants.checkerHeight);
                         if (isRedTurn)
                         {
-                            IGameObject checkerForFiled = GameObjectFactory.GenerateRedChecker(this.PositionsGameField[row, col], checkerSizeForField);
+                            IGameObject checkerForFiled =
+                                GameObjectFactory.GenerateRedChecker(
+                                    this.PositionsGameField[row, col],
+                                    checkerSizeForField);
+
                             this.GameField[row, col] = checkerForFiled;
-                            IGameObject checkerForUpFiled = GameObjectFactory.GenerateBlueChecker(this.UpGameField[currentIndex].Position, checkerSizeForField);
+
+                            IGameObject checkerForUpFiled =
+                                GameObjectFactory.GenerateBlueChecker(
+                                    this.UpGameField[currentIndex].Position,
+                                    checkerSizeForField);
+
                             this.UpGameField[currentIndex] = null;
                             this.UpGameField[currentIndex] = checkerForUpFiled;
                             isRedTurn = !isRedTurn;
                         }
                         else
                         {
-                            IGameObject checkerForFiled = GameObjectFactory.GenerateBlueChecker(this.PositionsGameField[row, col], checkerSizeForField);
+                            IGameObject checkerForFiled =
+                                GameObjectFactory.GenerateBlueChecker(
+                                    this.PositionsGameField[row, col],
+                                    checkerSizeForField);
+
                             this.GameField[row, col] = checkerForFiled;
-                            IGameObject checkerForUpFiled = GameObjectFactory.GenerateRedChecker(this.UpGameField[currentIndex].Position, checkerSizeForField);
+
+                            IGameObject checkerForUpFiled =
+                                GameObjectFactory.GenerateRedChecker(
+                                    this.UpGameField[currentIndex].Position,
+                                    checkerSizeForField);
+
                             this.UpGameField[currentIndex] = null;
                             this.UpGameField[currentIndex] = checkerForUpFiled;
                             isRedTurn = !isRedTurn;
@@ -404,12 +438,12 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             if (change == 1)
             {
                 isCorrectlyLeftPosition = currentIndex >= 0;
-                isCorrectlyRightPosition = currentIndex < this.PositionsForDropCheckers.Length - 1;
+                isCorrectlyRightPosition = currentIndex < this.PositionsUpGameField.Length - 1;
             }
             else
             {
                 isCorrectlyLeftPosition = currentIndex > 0;
-                isCorrectlyRightPosition = currentIndex <= this.PositionsForDropCheckers.Length - 1;
+                isCorrectlyRightPosition = currentIndex <= this.PositionsUpGameField.Length - 1;
             }
 
             if (isCorrectlyLeftPosition && isCorrectlyRightPosition)
@@ -430,7 +464,7 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             InitRemindCheckers();
             InitBoard();
 
-            //this.renderer.ShowStartGameScreen();
+            this.renderer.ShowStartGameScreen();
         }
 
         public void StartGame()
@@ -442,7 +476,8 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             this.Renderer.Draw(this.RemainingBlueCheckers);
 
 
-            timer.Interval = TimeSpan.FromMilliseconds(GlobalConstants.timerFramesIntervalInMiliSeconds);
+            timer.Interval = TimeSpan.FromMilliseconds(
+                GlobalConstants.timerFramesIntervalInMiliSeconds);
             timer.Tick += (sender, args) =>
             {
                 bool isWinner = CheckForWinner();
@@ -466,11 +501,11 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     Size winnerTextSize = GameObjectFactory.GenerateSize(350, 200);
                     string winner = isRedTurn ? GlobalConstants.PlayerBlue : GlobalConstants.PlayerRed;
                     string winnerMessege = string.Format(GlobalConstants.WinnerMessage, winner);
-                    ITextGameObject winnerText = GameObjectFactory.GenerateMessage(winnerTextPoition, winnerTextSize, winnerMessege);
+                    ITextGameObject winnerText = 
+                        GameObjectFactory.GenerateMessage(
+                            winnerTextPoition, winnerTextSize, winnerMessege);
 
                     this.Renderer.ShowEndGameScreen(winnerText);
-
-                    //Environment.Exit(0);
                 }
             };
             timer.Start();
@@ -485,8 +520,9 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
 
         private void InitStartChecker()
         {
-            var startPosition = PositionsForDropCheckers[3];
-            var checkerSize = GameObjectFactory.GenerateSize(GlobalConstants.startCheckerWidth, GlobalConstants.startCheckerHeight);
+            var startPosition = PositionsUpGameField[3];
+            var checkerSize = GameObjectFactory.GenerateSize(
+                GlobalConstants.startCheckerWidth, GlobalConstants.startCheckerHeight);
             this.Checker = GameObjectFactory.GenerateRedChecker(startPosition, checkerSize);
             this.UpGameField[3] = this.Checker;
         }
@@ -494,13 +530,13 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
         private void InitPositionUpField()
         {
             this.UpGameField = new GameObject[7];
-            this.PositionsForDropCheckers = new Position[7];
+            this.PositionsUpGameField = new Position[7];
 
             var startLeftPosition = GlobalConstants.startLeftPositionForUpCheckers;
             var startTopPosition = GlobalConstants.startTopPositionForUpCheckers;
-            for (int i = 0; i < PositionsForDropCheckers.Length; i++)
+            for (int i = 0; i < PositionsUpGameField.Length; i++)
             {
-                PositionsForDropCheckers[i] = GameObjectFactory.GeneratePosition(startLeftPosition, startTopPosition);
+                PositionsUpGameField[i] = GameObjectFactory.GeneratePosition(startLeftPosition, startTopPosition);
                 startLeftPosition += GlobalConstants.spacingBetweenCells;
             }
         }
@@ -517,7 +553,8 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                 currentTopPosition += GlobalConstants.topSpacing;
                 for (int col = 0; col < PositionsGameField.GetLength(1); col++)
                 {
-                    PositionsGameField[row, col] = GameObjectFactory.GeneratePosition(currentLeftPosition, currentTopPosition);
+                    PositionsGameField[row, col] = GameObjectFactory.GeneratePosition(
+                        currentLeftPosition, currentTopPosition);
                     currentLeftPosition += GlobalConstants.spacingBetweenCells;
                 }
 
@@ -537,22 +574,30 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
 
         private void FillPositionsForReminderCheckers()
         {
-            Size sizeForReminderCheckers = GameObjectFactory.GenerateSize(GlobalConstants.remindCheckerWidth, GlobalConstants.remindCheckerHeight);
+            Size sizeForReminderCheckers = GameObjectFactory.GenerateSize(
+                GlobalConstants.remindCheckerWidth, GlobalConstants.remindCheckerHeight);
 
             // fill positions for red
-            var startPositionLeftReminderCheckerRed = GlobalConstants.remindCheckerStartPosLeft;
-            var startPositionTopReminderCheckerRed = GlobalConstants.remindCheckerStartPosTop;
+            var startPositionLeftReminderCheckerRed = 
+                GlobalConstants.remindCheckerStartPosLeft;
+            var startPositionTopReminderCheckerRed = 
+                GlobalConstants.remindCheckerStartPosTop;
             bool isBeginSecondLineForRedReminderCheckers = true;
             for (int i = 0; i < this.PositionRemainingRedCheckers.Length; i++)
             {
                 if (i > this.PositionRemainingRedCheckers.Length / 2 && isBeginSecondLineForRedReminderCheckers)
                 {
-                    startPositionLeftReminderCheckerRed = GlobalConstants.remindCheckerStartPosLeft + GlobalConstants.spacingBetweenRemindCheckers;
+                    startPositionLeftReminderCheckerRed = 
+                        GlobalConstants.remindCheckerStartPosLeft + 
+                        GlobalConstants.spacingBetweenRemindCheckers;
                     startPositionTopReminderCheckerRed = GlobalConstants.remindCheckerStartPosTop;
                     isBeginSecondLineForRedReminderCheckers = false;
                 }
 
-                this.PositionRemainingRedCheckers[i] = GameObjectFactory.GeneratePosition(startPositionLeftReminderCheckerRed, startPositionTopReminderCheckerRed);
+                this.PositionRemainingRedCheckers[i] = 
+                    GameObjectFactory.GeneratePosition(
+                        startPositionLeftReminderCheckerRed, 
+                        startPositionTopReminderCheckerRed);
                 startPositionTopReminderCheckerRed += GlobalConstants.spacingBetweenRemindCheckers;
             }
 
@@ -563,7 +608,9 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             }
 
             // fill positions for blue
-            var startPositionLeftReminderCheckerBlue = GlobalConstants.remindCheckerStartPosLeft + GlobalConstants.spacingBetweenRemindCheckers * 3;
+            var startPositionLeftReminderCheckerBlue = 
+                GlobalConstants.remindCheckerStartPosLeft + 
+                GlobalConstants.spacingBetweenRemindCheckers * 3;
             var startPositionTopReminderCheckerBlue = GlobalConstants.remindCheckerStartPosTop;
             bool isBeginSecondLineForBlueReminderCheckers = true;
             for (int i = 0; i < this.PositionRemainingBlueCheckers.Length; i++)
@@ -575,14 +622,18 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                     isBeginSecondLineForBlueReminderCheckers = false;
                 }
 
-                this.PositionRemainingBlueCheckers[i] = GameObjectFactory.GeneratePosition(startPositionLeftReminderCheckerBlue, startPositionTopReminderCheckerBlue);
+                this.PositionRemainingBlueCheckers[i] = 
+                    GameObjectFactory.GeneratePosition(
+                        startPositionLeftReminderCheckerBlue, 
+                    startPositionTopReminderCheckerBlue);
                 startPositionTopReminderCheckerBlue += GlobalConstants.spacingBetweenRemindCheckers;
             }
 
             for (int i = 0; i < this.RemainingBlueCheckers.Length; i++)
             {
                 var currentPosition = this.PositionRemainingBlueCheckers[i];
-                this.RemainingBlueCheckers[i] = GameObjectFactory.GenerateBlueChecker(currentPosition, sizeForReminderCheckers);
+                this.RemainingBlueCheckers[i] = 
+                    GameObjectFactory.GenerateBlueChecker(currentPosition, sizeForReminderCheckers);
             }
         }
 

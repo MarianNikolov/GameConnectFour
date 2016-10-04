@@ -18,7 +18,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
     public class WpfGameRenderer : IRenderer
     {
-        private bool isRedMessege;
+        private bool isRedMessage;
 
         private Canvas canvas;
 
@@ -26,7 +26,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
         {
             get
             {
-                return (int)(this.canvas.Parent as MainWindow).Width;
+                return (int)(this.Canvas.Parent as MainWindow).Width;
             }
         }
 
@@ -34,7 +34,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
         {
             get
             {
-                return (int)(this.canvas.Parent as MainWindow).Height;
+                return (int)(this.Canvas.Parent as MainWindow).Height;
             }
         }
 
@@ -42,12 +42,25 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
         {
             get
             {
-                return this.isRedMessege;
+                return this.isRedMessage;
             }
 
             set
             {
-                this.isRedMessege = value;
+                this.isRedMessage = value;
+            }
+        }
+
+        public Canvas Canvas
+        {
+            get
+            {
+                return this.canvas;
+            }
+
+            set
+            {
+                this.canvas = value;
             }
         }
 
@@ -56,50 +69,16 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
         public WpfGameRenderer(Canvas gameCanvas)
         {
             this.IsRedMessege = false;
+            this.Canvas = gameCanvas;
+
             string pathToBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
-            this.canvas = gameCanvas;
-            ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
+            ImageBrush myBrush = new ImageBrush();
             image.Source = new BitmapImage(new Uri(pathToBackground));
             myBrush.ImageSource = image.Source;
-            this.canvas.Background = myBrush;
+            this.Canvas.Background = myBrush;
 
-            (this.canvas.Parent as MainWindow).KeyDown += WpfGameRenderer_KeyDown;
-        }
-
-        private void WpfGameRenderer_KeyDown(object sender, KeyEventArgs args)
-        {
-            var key = args.Key;
-            var isLeft = key == Key.Left;
-            var isRihgt = key == Key.Right;
-            var isEnter = key == Key.Enter;
-
-            if (isLeft)
-            {
-                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveLeft));
-            }
-            else if (isRihgt)
-            {
-                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveRight));
-            }
-            else if (isEnter)
-            {
-                this.presingKey(this, new KeyDownEventArgs(GameCommandType.Falling));
-            }
-            else
-            {
-                this.presingKey(this, new KeyDownEventArgs(GameCommandType.WrongKey));
-            }
-        }
-
-        public void RefreshGame()
-        {
-            this.canvas.Refresh();
-        }
-
-        public void Clear()
-        {
-            this.canvas.Children.Clear();
+            (this.Canvas.Parent as MainWindow).KeyDown += WpfGameRenderer_KeyDown;
         }
 
         public void Draw(params IGameObject[] drawObjects)
@@ -108,17 +87,14 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             {
                 if (objectForDraw is CheckerRed)
                 {
-                    IGameObject drawingIMovable = objectForDraw as IGameObject;
                     DrawRedCheckers(objectForDraw);
                 }
                 if (objectForDraw is CheckerBlue)
                 {
-                    IGameObject drawingIMovable = objectForDraw as IGameObject;
                     DrawBlueCheckers(objectForDraw);
                 }
                 if (objectForDraw is GameBoard)
                 {
-                    IGameObject drawingIMovable = objectForDraw as IGameObject;
                     DrawGameBoard(objectForDraw);
                 }
                 if (objectForDraw is TextGameObject)
@@ -160,105 +136,6 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             }
         }
 
-        public void DrawGameBoard(IGameObject boardForDraw)
-        {
-            BitmapImage boardSource = new BitmapImage();
-            boardSource.BeginInit();
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\gameBoard.png");
-            boardSource.UriSource = new Uri(path);
-            boardSource.EndInit();
-
-            Image board = new Image();
-            board.Source = boardSource;
-            board.Height = boardForDraw.Bounds.Height;
-            board.Width = boardForDraw.Bounds.Width;
-
-            Canvas.SetLeft(board, boardForDraw.Position.Left);
-            Canvas.SetTop(board, boardForDraw.Position.Top);
-            board.Uid = "5";
-            this.canvas.Children.Add(board);
-        }
-
-        private void DrawRedCheckers(IGameObject objectForDraw)
-        {
-            BitmapImage ballFacetSource = new BitmapImage();
-            ballFacetSource.BeginInit();
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\redBall.png");
-            ballFacetSource.UriSource = new Uri(path);
-            ballFacetSource.EndInit();
-
-            Image checker = new Image();
-            checker.Source = ballFacetSource;
-            checker.Height = objectForDraw.Bounds.Height;
-            checker.Width = objectForDraw.Bounds.Width;
-
-            Canvas.SetLeft(checker, objectForDraw.Position.Left);
-            Canvas.SetTop(checker, objectForDraw.Position.Top);
-            this.canvas.Children.Add(checker);
-        }
-
-        private void DrawBlueCheckers(IGameObject objectForDraw)
-        {
-            BitmapImage ballFacetSource = new BitmapImage();
-            ballFacetSource.BeginInit();
-            string path = System.IO.Path.GetFullPath(@"..\..\Images\blueBall.png");
-            ballFacetSource.UriSource = new Uri(path);
-            ballFacetSource.EndInit();
-
-            Image checker = new Image();
-            checker.Source = ballFacetSource;
-            checker.Height = objectForDraw.Bounds.Height;
-            checker.Width = objectForDraw.Bounds.Width;
-
-            Canvas.SetLeft(checker, objectForDraw.Position.Left);
-            Canvas.SetTop(checker, objectForDraw.Position.Top);
-            this.canvas.Children.Add(checker);
-        }
-
-        public void DrawText(ITextGameObject drawing)
-        {
-            var text = new TextBlock()
-            {
-                Width = drawing.Bounds.Width,
-                Height = drawing.Bounds.Height,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Text = drawing.Text,
-                FontSize = 33,
-            };
-
-            if (drawing is NextTurnMessage)
-            {
-                if (IsRedMessege)
-                {
-                    text.Foreground = Brushes.White;
-                    text.Background = Brushes.Red;
-                    this.IsRedMessege = !this.IsRedMessege;
-                }
-                else
-                {
-                    text.Foreground = Brushes.White;
-                    text.Background = Brushes.Blue;
-                    this.IsRedMessege = !this.IsRedMessege;
-                }
-            }
-
-            if (drawing is WrongKeyMessage)
-            {
-                text.Width = 470;
-                text.Height = 80;
-                text.Foreground = Brushes.Black;
-                text.Background = Brushes.White;
-                text.HorizontalAlignment = HorizontalAlignment.Center;
-                text.VerticalAlignment = VerticalAlignment.Center;
-                text.FontSize = 55;
-            }
-
-            Canvas.SetLeft(text, drawing.Position.Left);
-            Canvas.SetTop(text, drawing.Position.Top);
-            this.canvas.Children.Add(text);
-        }
-
         public void DrawWinLine(Position startPosition, Position endPosition)
         {
             Line myLine = new Line();
@@ -270,23 +147,23 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
             myLine.Stroke = Brushes.AliceBlue;
             myLine.StrokeThickness = 20;
-            //Rectangle myLine = new Rectangle();
-            //myLine.Width = 222;
-            //myLine.Width = 222;
+            
+            this.Canvas.Children.Add(myLine);
+        }
 
-            //SolidColorBrush blueBrush = new SolidColorBrush();
-            //blueBrush.Color = Colors.Blue;
-            //myLine.Fill = blueBrush;
-            //myLine.RadiusX = 5;
-            //myLine.RadiusY = 5;
-            //Canvas.SetLeft(myLine, 0);
-            //Canvas.SetRight(myLine, 222);
-            this.canvas.Children.Add(myLine);
+        public void RefreshGame()
+        {
+            this.Canvas.Refresh();
+        }
+
+        public void Clear()
+        {
+            this.Canvas.Children.Clear();
         }
 
         public void ShowStartGameScreen()
         {
-            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
+            string pathBackground = System.IO.Path.GetFullPath(@"..\..\Images\startGameBackground.jpg");
             ImageBrush myBrush = new ImageBrush();
             Image image = new Image();
             image.Source = new BitmapImage(new Uri(pathBackground));
@@ -300,7 +177,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Background = myBrush
             };
             window.Show();
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(7000);
             window.Close();
         }
 
@@ -320,7 +197,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
                 Background = myBrush
             };
 
-            var parent = this.canvas.Parent;
+            var parent = this.Canvas.Parent;
             while (!(parent is Window))
             {
                 parent = VisualTreeHelper.GetParent(parent);
@@ -398,7 +275,131 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
         public void StopEventHandler()
         {
-            (this.canvas.Parent as MainWindow).KeyDown -= WpfGameRenderer_KeyDown;
+            (this.Canvas.Parent as MainWindow).KeyDown -= WpfGameRenderer_KeyDown;
+        }
+
+        private void DrawRedCheckers(IGameObject objectForDraw)
+        {
+            BitmapImage ballFacetSource = new BitmapImage();
+            ballFacetSource.BeginInit();
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\redBall.png");
+            ballFacetSource.UriSource = new Uri(path);
+            ballFacetSource.EndInit();
+
+            Image checker = new Image();
+            checker.Source = ballFacetSource;
+            checker.Height = objectForDraw.Bounds.Height;
+            checker.Width = objectForDraw.Bounds.Width;
+
+            Canvas.SetLeft(checker, objectForDraw.Position.Left);
+            Canvas.SetTop(checker, objectForDraw.Position.Top);
+            this.Canvas.Children.Add(checker);
+        }
+
+        private void DrawBlueCheckers(IGameObject objectForDraw)
+        {
+            BitmapImage ballFacetSource = new BitmapImage();
+            ballFacetSource.BeginInit();
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\blueBall.png");
+            ballFacetSource.UriSource = new Uri(path);
+            ballFacetSource.EndInit();
+
+            Image checker = new Image();
+            checker.Source = ballFacetSource;
+            checker.Height = objectForDraw.Bounds.Height;
+            checker.Width = objectForDraw.Bounds.Width;
+
+            Canvas.SetLeft(checker, objectForDraw.Position.Left);
+            Canvas.SetTop(checker, objectForDraw.Position.Top);
+            this.Canvas.Children.Add(checker);
+        }
+
+        private void DrawGameBoard(IGameObject boardForDraw)
+        {
+            BitmapImage boardSource = new BitmapImage();
+            boardSource.BeginInit();
+            string path = System.IO.Path.GetFullPath(@"..\..\Images\gameBoard.png");
+            boardSource.UriSource = new Uri(path);
+            boardSource.EndInit();
+
+            Image board = new Image();
+            board.Source = boardSource;
+            board.Height = boardForDraw.Bounds.Height;
+            board.Width = boardForDraw.Bounds.Width;
+
+            Canvas.SetLeft(board, boardForDraw.Position.Left);
+            Canvas.SetTop(board, boardForDraw.Position.Top);
+            board.Uid = "5";
+            this.Canvas.Children.Add(board);
+        }
+
+        private void DrawText(ITextGameObject drawing)
+        {
+            var text = new TextBlock()
+            {
+                Width = drawing.Bounds.Width,
+                Height = drawing.Bounds.Height,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = drawing.Text,
+                FontSize = 33,
+            };
+
+            if (drawing is NextTurnMessage)
+            {
+                if (IsRedMessege)
+                {
+                    text.Foreground = Brushes.White;
+                    text.Background = Brushes.Red;
+                    this.IsRedMessege = !this.IsRedMessege;
+                }
+                else
+                {
+                    text.Foreground = Brushes.White;
+                    text.Background = Brushes.Blue;
+                    this.IsRedMessege = !this.IsRedMessege;
+                }
+            }
+
+            if (drawing is WrongKeyMessage)
+            {
+                text.Width = 470;
+                text.Height = 80;
+                text.Foreground = Brushes.Black;
+                text.Background = Brushes.White;
+                text.HorizontalAlignment = HorizontalAlignment.Center;
+                text.VerticalAlignment = VerticalAlignment.Center;
+                text.FontSize = 55;
+            }
+
+            Canvas.SetLeft(text, drawing.Position.Left);
+            Canvas.SetTop(text, drawing.Position.Top);
+            this.Canvas.Children.Add(text);
+        }
+
+        private void WpfGameRenderer_KeyDown(object sender, KeyEventArgs args)
+        {
+            var key = args.Key;
+            var isLeft = key == Key.Left;
+            var isRihgt = key == Key.Right;
+            var isEnter = key == Key.Enter;
+
+            if (isLeft)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveLeft));
+            }
+            else if (isRihgt)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.MoveRight));
+            }
+            else if (isEnter)
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.Falling));
+            }
+            else
+            {
+                this.presingKey(this, new KeyDownEventArgs(GameCommandType.WrongKey));
+            }
         }
     }
 }
