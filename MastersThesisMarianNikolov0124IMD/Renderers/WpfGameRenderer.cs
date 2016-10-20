@@ -1,16 +1,14 @@
 ﻿using System;
-using MastersThesisMarianNikolov0124IMD.Common;
-using MastersThesisMarianNikolov0124IMD.Contracts;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Input;
-using MastersThesisMarianNikolov0124IMD.GameObjects;
-using System.Windows;
-using System.Linq;
 using System.Windows.Shapes;
+using MastersThesisMarianNikolov0124IMD.Common;
+using MastersThesisMarianNikolov0124IMD.Contracts;
+using MastersThesisMarianNikolov0124IMD.GameObjects;
 using MastersThesisMarianNikolov0124IMD.Global;
-using System.Windows.Media.Effects;
 
 namespace MastersThesisMarianNikolov0124IMD.Renderers
 {
@@ -71,7 +69,8 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
             this.IsRedMessege = false;
             this.Canvas = gameCanvas;
 
-            string pathToBackground = System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
+            string pathToBackground =
+                System.IO.Path.GetFullPath(@"..\..\Images\gameBackground.jpg");
             Image image = new Image();
             ImageBrush myBrush = new ImageBrush();
             image.Source = new BitmapImage(new Uri(pathToBackground));
@@ -80,7 +79,6 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
             (this.Canvas.Parent as MainWindow).KeyDown += WpfGameRenderer_KeyDown;
         }
-
         public void Draw(params IGameObject[] drawObjects)
         {
             foreach (var objectForDraw in drawObjects)
@@ -147,7 +145,7 @@ namespace MastersThesisMarianNikolov0124IMD.Renderers
 
             myLine.Stroke = Brushes.AliceBlue;
             myLine.StrokeThickness = 20;
-            
+
             this.Canvas.Children.Add(myLine);
         }
 

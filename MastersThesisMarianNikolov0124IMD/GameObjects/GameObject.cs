@@ -1,5 +1,4 @@
-﻿using System;
-using MastersThesisMarianNikolov0124IMD.Contracts;
+﻿using MastersThesisMarianNikolov0124IMD.Contracts;
 
 namespace MastersThesisMarianNikolov0124IMD.GameObjects
 {

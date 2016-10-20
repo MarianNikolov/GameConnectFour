@@ -1,5 +1,4 @@
-﻿
-namespace MastersThesisMarianNikolov0124IMD.GameObjects
+﻿namespace MastersThesisMarianNikolov0124IMD.GameObjects
 {
     public class Position
     {

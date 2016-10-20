@@ -1,12 +1,11 @@
 ﻿using System;
-using MastersThesisMarianNikolov0124IMD.Contracts;
 using System.Collections.Generic;
 using System.Windows.Threading;
 using MastersThesisMarianNikolov0124IMD.Common;
+using MastersThesisMarianNikolov0124IMD.Contracts;
 using MastersThesisMarianNikolov0124IMD.Factories;
-using MastersThesisMarianNikolov0124IMD.Global;
 using MastersThesisMarianNikolov0124IMD.GameObjects;
-using System.Windows.Interop;
+using MastersThesisMarianNikolov0124IMD.Global;
 
 namespace MastersThesisMarianNikolov0124IMD.Engine
 {
@@ -396,7 +395,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
                         break;
                     }
                 }
-
             }
         }
 
@@ -474,7 +472,6 @@ namespace MastersThesisMarianNikolov0124IMD.Engine
             this.Renderer.Draw(this.Board);
             this.Renderer.Draw(this.RemainingRedCheckers);
             this.Renderer.Draw(this.RemainingBlueCheckers);
-
 
             timer.Interval = TimeSpan.FromMilliseconds(
                 GlobalConstants.timerFramesIntervalInMiliSeconds);

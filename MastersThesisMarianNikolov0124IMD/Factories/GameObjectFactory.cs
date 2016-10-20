@@ -1,11 +1,5 @@
 ﻿using MastersThesisMarianNikolov0124IMD.Contracts;
 using MastersThesisMarianNikolov0124IMD.GameObjects;
-using MastersThesisMarianNikolov0124IMD.Global;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MastersThesisMarianNikolov0124IMD.Factories
 {
