@@ -1,1 +1,1 @@
-# Masters thesis - Game Connect four
+# Game Connect four
